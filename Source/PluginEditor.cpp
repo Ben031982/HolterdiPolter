@@ -1,0 +1,11 @@
+#include "PluginEditor.h"
+HoltertEditor::HoltertEditor(HoltertProcessor& p):juce::AudioProcessorEditor(&p),processor(p){
+ setSize(780,400);
+ title.setText("HOLTERTDIPOLTER",juce::dontSendNotification);title.setFont(juce::Font(juce::FontOptions(32.0f,juce::Font::bold)));title.setColour(juce::Label::textColourId,juce::Colour(0xffff914f));addAndMakeVisible(title);
+ subtitle.setText("RUMBLE MAKER  /  v0.1  /  KICK TO RUMBLE",juce::dontSendNotification);subtitle.setColour(juce::Label::textColourId,juce::Colour(0xff91b7d0));addAndMakeVisible(subtitle);
+ notice.setText("LIVE INPUT: Route the Kick into this track. Output = RUMBLE ONLY.",juce::dontSendNotification);notice.setColour(juce::Label::textColourId,juce::Colour(0xff7dd5b5));addAndMakeVisible(notice);
+ const char* ids[]={"rumble","decay","drive","tone","duck","output"};const char* names[]={"RUMBLE","DECAY","DRIVE","TONE","DUCK","OUTPUT"};
+ for(int i=0;i<6;++i){auto& k=knobs[(size_t)i];k.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);k.setTextBoxStyle(juce::Slider::TextBoxBelow,false,76,22);k.setColour(juce::Slider::rotarySliderFillColourId,juce::Colour(0xffff914f));k.setColour(juce::Slider::thumbColourId,juce::Colour(0xffff914f));k.setColour(juce::Slider::textBoxTextColourId,juce::Colours::white);addAndMakeVisible(k);labels[(size_t)i].setText(names[i],juce::dontSendNotification);labels[(size_t)i].setJustificationType(juce::Justification::centred);labels[(size_t)i].setColour(juce::Label::textColourId,juce::Colour(0xffb9d4e6));addAndMakeVisible(labels[(size_t)i]);attachments.push_back(std::make_unique<Attachment>(processor.params,ids[i],k));}
+}
+void HoltertEditor::paint(juce::Graphics& g){g.fillAll(juce::Colour(0xff07111f));g.setColour(juce::Colour(0xff173a55));g.drawRoundedRectangle(getLocalBounds().toFloat().reduced(9),13,1.5f);g.setColour(juce::Colour(0xff102c43));g.fillRoundedRectangle(juce::Rectangle<float>(18,113,744,222),12);g.setColour(juce::Colour(0xffe37e4b));g.drawLine(20,100,760,100,2);}
+void HoltertEditor::resized(){title.setBounds(28,17,700,43);subtitle.setBounds(30,60,700,25);for(int i=0;i<6;++i){const int x=30+i*121;labels[(size_t)i].setBounds(x,135,110,28);knobs[(size_t)i].setBounds(x,168,110,143);}notice.setBounds(30,352,730,26);}
