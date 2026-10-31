@@ -1,0 +1,19 @@
+# Build output
+build/
+out/
+cmake-build-*/
+
+# Visual Studio / IDE
+.vs/
+.vscode/
+*.user
+*.suo
+.cache/
+
+# Local CMake overrides
+CMakeUserPresets.json
+CMakeSettings.json
+
+# OS
+Thumbs.db
+.DS_Store
